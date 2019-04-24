@@ -1,0 +1,22 @@
+{
+    "name": "gen_map",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "gen": "ts-node  --files ./script/main gen",
+        "copy": "ts-node  --files ./script/main copy",
+        "test": "ts-node --files ./test/test"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "lodash": "^4.17.11",
+        "node-xlsx": "^0.14.1",
+        "xlsx": "^0.14.2"
+    },
+    "devDependencies": {
+        "@types/node": "^10.14.4",
+        "ts-node": "^8.1.0",
+        "typescript": "^3.4.5"
+    }
+}

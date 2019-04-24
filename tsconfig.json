@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "resolveJsonModule": true,
+        "experimentalDecorators": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "rootDir": ".",
+        "outDir": "libs",
+        "skipDefaultLibCheck": true,
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "target": "esnext",
+        "watch": true
+    },
+    "include": ["script", "./test"]
+}
