@@ -10,6 +10,10 @@ export async function walkSrc(): Promise<string[]> {
         if (ignore_files.indexOf(file) !== -1) {
             continue;
         }
+        /** ignore xlsx 缓存文件 */
+        if (file.indexOf('~$') !== -1) {
+            continue;
+        }
         const file_path = path.resolve(SRC, file);
         result.push(file_path);
     }

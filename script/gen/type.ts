@@ -45,6 +45,10 @@ export function calcType(type_str_arr: string[]): ItemType[] {
 }
 
 export function convertPrimType(ori_val, type: ItemType) {
+    /** 0 作为空是一个特殊值 相当于没有配值 直接返回 */
+    if (ori_val === 0) {
+        return 0;
+    }
     if (type === PrimType.int || type === PrimType.double) {
         return Number(ori_val);
     }
