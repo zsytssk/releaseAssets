@@ -44,16 +44,12 @@ export function calcType(type_str_arr: string[]): ItemType[] {
     return result;
 }
 
-export function convertPrimType(ori_val, type: ItemType) {
-    /** 0 作为空是一个特殊值 相当于没有配值 直接返回 */
-    if (ori_val === 0) {
-        return 0;
-    }
+export function convertPrimType(ori_val, type: PrimType) {
     if (type === PrimType.int || type === PrimType.double) {
-        return Number(ori_val);
+        return ori_val ? Number(ori_val) : 0;
     }
     if (type === PrimType.string) {
-        return ori_val + '';
+        return ori_val ? ori_val + '' : null;
     }
 }
 
