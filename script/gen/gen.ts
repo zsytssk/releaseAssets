@@ -1,6 +1,6 @@
 import * as nodeXlsx from 'node-xlsx';
 import * as path from 'path';
-import { DIST } from '../config';
+import { PROJECT_FOLDER } from '../config';
 import { write } from '../ls/write';
 import { stringify } from '../utils/util';
 import { calcType, convertType, ItemType } from './type';
@@ -47,8 +47,14 @@ export async function genXlsx(file: string) {
         }
         result.data[row[0]].push(item_info);
     }
-    const dist_path = path.resolve(DIST, `${file_name}.json`);
-    return write(dist_path, stringify(result, 2));
+    const laya_map_folder = path.resolve(PROJECT_FOLDER, 'laya/assets/config');
+    const bin_map_folder = path.resolve(PROJECT_FOLDER, 'bin/config');
+
+    const dist1_path = path.resolve(laya_map_folder, `${file_name}.json`);
+    const dist2_path = path.resolve(bin_map_folder, `${file_name}.json`);
+
+    await write(dist1_path, stringify(result, 2));
+    await write(dist2_path, stringify(result, 2));
 }
 
 export function fileName(file_path: string) {

@@ -1,7 +1,16 @@
 import * as path from 'path';
-import * as config from './configPath.json';
+import { readFile } from './ls/asyncUtil';
 
-export const SRC = path.resolve(config.src_folder);
-// export const SRC = './src';
-export const DIST = './dist';
-export const ignore_files = config.ignore_files;
+export let SRC;
+export let PROJECT_FOLDER;
+export let DIST;
+export let ignore_files;
+
+export async function intConfig(config_path: string) {
+    const config_raw = await readFile(config_path);
+    const config = JSON.parse(config_raw);
+    SRC = path.resolve(config.src_folder);
+    PROJECT_FOLDER = path.resolve(config.project_folder);
+    DIST = './dist';
+    ignore_files = config.ignore_files;
+}
