@@ -7,7 +7,7 @@ module.exports = {
     watch: true,
     output: {
         filename: 'genConfig.js',
-        path: path.normalize('D:\\zsytssk\\job\\legend\\legend_demo\\script\\genMap'),
+        path: path.normalize('D:\\zsytssk\\job\\legend\\legend_demo\\script\\genConfig'),
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.json'],
@@ -16,14 +16,6 @@ module.exports = {
     externals: [nodeExternals()],
     module: {
         rules: [
-            {
-                test: /\.(json)?$/,
-                use: [
-                    {
-                        loader: 'file-loader?name=[name].json',
-                    },
-                ],
-            },
             {
                 test: /\.(.js|ts)?$/,
                 loader: 'ts-loader',

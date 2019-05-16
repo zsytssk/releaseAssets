@@ -1,7 +1,7 @@
 import * as path from 'path';
-import { DIST, intConfig } from './config';
-import { copy } from './copy';
+import { DIST, intConfig } from './const';
 import { genXlsx } from './gen/gen';
+import { cp } from './ls/main';
 import { rm } from './ls/rm';
 import { walkSrc } from './utils/walkSrc';
 
@@ -15,10 +15,19 @@ async function gen() {
         await genXlsx(file);
     }
 }
+
+export async function releaseExtern() {
+    const src = 'D:\\zsytssk\\job\\legend\\genConfig';
+    const dist = 'D:\\zsytssk\\job\\legend\\legend_demo\\script\\genConfig';
+    const files = ['config.json'];
+    for (const file of files) {
+        cp(path.resolve(src, file), path.resolve(dist, file));
+    }
+}
+
 async function main() {
     await intConfig(config_path);
     const actions = {
-        copy,
         gen,
     };
     if (actions[type]) {

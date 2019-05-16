@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { ignore_files, SRC } from '../config';
+import { ignore_files, SRC } from '../const';
 import { readdir } from '../ls/asyncUtil';
 
 export async function walkSrc(): Promise<string[]> {

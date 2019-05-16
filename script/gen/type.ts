@@ -68,11 +68,15 @@ export function convertType(ori_val, type: ItemType) {
         console.error(`cant find convertType for ${ori_val}`);
     }
     const val_arr = splitVal(ori_val);
-
     return convertArrVal(val_arr as any[], type);
 }
 
 function splitVal(ori_val: string, index: number = 0) {
+    /** 第一层 0 就相当于空 */
+    if (Number(ori_val) === 0 && index === 0) {
+        return 0;
+    }
+
     const split_sign = ['|', ';', ','];
     const val_arr = ori_val.split(split_sign[index]);
     if (val_arr.length === 1) {
@@ -89,6 +93,11 @@ function splitVal(ori_val: string, index: number = 0) {
     return result;
 }
 function convertArrVal(val: any[], type: ItemType): any[] {
+    /** 0 就相当于空 */
+    if (Number(val) === 0) {
+        return null;
+    }
+
     const result = [];
     for (let i = 0; i < val.length; i++) {
         const item = val[i];

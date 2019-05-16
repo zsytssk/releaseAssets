@@ -1,6 +1,6 @@
 import * as nodeXlsx from 'node-xlsx';
 import * as path from 'path';
-import { PROJECT_FOLDER } from '../config';
+import { PROJECT_FOLDER } from '../const';
 import { write } from '../ls/write';
 import { stringify } from '../utils/util';
 import { calcType, convertType, ItemType } from './type';
@@ -27,6 +27,13 @@ export async function genXlsx(file: string) {
         type: type_str_arr,
         zh_title,
     };
+    for (let i = 0; i < type_arr.length; i++) {
+        const item_type = type_arr[i];
+        const item_title = title[i];
+        if (item_type === undefined) {
+            console.error(`${file_name}:>${item_title}:> type === ${item_type}`);
+        }
+    }
 
     const is_arr = detectIsArr(data);
     for (const row of data) {
@@ -35,13 +42,15 @@ export async function genXlsx(file: string) {
             continue;
         }
         for (let k = 0; k < title.length; k++) {
-            item_info[title[k]] = convertType(row[k], type_arr[k]);
+            const item_type = type_arr[k];
+            const item_title = title[k];
+            item_info[item_title] = convertType(row[k], item_type);
         }
         if (!is_arr) {
             result.data[row[0]] = item_info;
             continue;
         }
-        /** 如果是数组就push到Array中... */
+        /** 如果是数组就 push到 Array 中... */
         if (!result.data[row[0]]) {
             result.data[row[0]] = [];
         }
