@@ -28,7 +28,7 @@ export function exists(path) {
         });
     });
 }
-export function lstat(path): Promise<any> {
+export function lstat(path): Promise<fs.Stats> {
     return new Promise((resolve, reject) => {
         fs.lstat(path, (err, data) => {
             if (err) {
