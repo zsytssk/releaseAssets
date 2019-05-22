@@ -9,19 +9,8 @@
             "request": "launch",
             "name": "build",
             "runtimeArgs": ["-r", "ts-node/register"],
-            "args": ["${workspaceRoot}\\script\\main.ts", "gen"],
+            "args": ["${workspaceRoot}\\script\\main.ts", "releaseAssets", "HEAD~2"],
             "cwd": "${workspaceRoot}",
-            "sourceMaps": true,
-            "env": {
-                "TS_NODE_FILES": true
-            }
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "test",
-            "runtimeArgs": ["-r", "ts-node/register"],
-            "args": ["${workspaceRoot}\\test\\test.ts"],
             "sourceMaps": true,
             "env": {
                 "TS_NODE_FILES": true

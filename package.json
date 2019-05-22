@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
+        "releaseAssets10": "ts-node  --files ./script/main releaseAssets HEAD~10",
         "releaseAssets": "ts-node  --files ./script/main releaseAssets"
     },
     "author": "",
