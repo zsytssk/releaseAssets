@@ -12,7 +12,7 @@ export function readdir(dir): Promise<string[]> {
 }
 export async function readFile(file_path: string): Promise<string> {
     return new Promise((resolve, reject) => {
-        fs.readFile(file_path, 'utf8', (err, file_str) => {
+        fs.readFile(file_path, 'utf8', (err, file_str: string) => {
             if (err) {
                 return reject(err);
             }
@@ -71,6 +71,11 @@ export function mkdir(path) {
         });
     });
 }
+export function isClosest(path: string, parent: string) {
+    path.normalize(path);
+    console.log('TCL: isClosest -> path.normalize(path)', path.normalize(path));
+}
+
 export function sleep(time: number) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {

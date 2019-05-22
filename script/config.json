@@ -1,7 +1,8 @@
 {
     "project_folder": "D:\\zsytssk\\job\\legend\\legend_demo",
     "bin": "bin",
-    "layaAssets": "laya/assets",
+    "laya_assets": "laya/assets",
+    "laya_pages": "laya/pages",
     "binJs": "bin/main.js",
     "target_folder": "X:\\"
 }

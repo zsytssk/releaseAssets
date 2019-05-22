@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { bin, binJs, layaAssets, project_folder, target_folder } from './const';
+import { bin, binJs, laya_assets, project_folder, target_folder, laya_pages } from './const';
 import { exists, lstat } from './ls/asyncUtil';
 import { execArr } from './ls/exec';
 import { cp } from './ls/main';
@@ -53,6 +53,7 @@ async function findTargetFile(ori_file: string) {
     if (bin_file) {
         return bin_file;
     }
+
     // js + ui
     if (isScriptFile(ori_file) || isUIFile(ori_file)) {
         return [binJs];
@@ -60,7 +61,8 @@ async function findTargetFile(ori_file: string) {
     if (isScriptFile(ori_file) || isUIFile(ori_file)) {
         return [binJs];
     }
-    throw new Error(`cant find target file for ${ori_file}, maybe you should publish laya project`);
+
+    throw new Error(`cant find target file for ${ori_file}`);
 }
 
 function isScriptFile(ori_file: string) {
@@ -76,12 +78,29 @@ function isUIFile(ori_file: string) {
     return false;
 }
 async function findBinFile(ori_file: string): Promise<string | string[]> {
-    const bin_file = ori_file.replace(layaAssets, bin);
-
-    if (await exists(path.resolve(project_folder, bin_file))) {
-        return bin_file;
+    /** bin 文件夹中存在的文件 */
+    if (ori_file.indexOf(`${bin}/`) === 0) {
+        if (await exists(path.resolve(project_folder, ori_file))) {
+            return ori_file;
+        }
     }
-    const bin_folder = path.dirname(ori_file.replace(layaAssets, bin));
+
+    /** laya/assets  中直接copy到 bin 文件 */
+    if (ori_file.indexOf(laya_assets) === 0) {
+        const assets_file = ori_file.replace(laya_assets, bin);
+        if (await exists(path.resolve(project_folder, assets_file))) {
+            return assets_file;
+        }
+    }
+    /** laya/pages  中直接copy到 bin 文件 */
+    if (ori_file.indexOf(laya_pages) === 0) {
+        const pages_file = ori_file.replace(laya_pages, bin);
+        if (await exists(path.resolve(project_folder, pages_file))) {
+            return pages_file;
+        }
+    }
+
+    const bin_folder = path.dirname(ori_file.replace(laya_assets, bin));
     const assets_atlas = `${bin_folder}.atlas`;
     const assets_json = `${bin_folder}.json`;
     const assets_png = `${bin_folder}.png`;
