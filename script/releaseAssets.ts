@@ -1,8 +1,9 @@
 import * as path from 'path';
-import { bin, binJs, laya_assets, project_folder, target_folder, laya_pages } from './const';
-import { exists, lstat } from './ls/asyncUtil';
+import { bin, binJs, laya_assets, project_folder, target_folder, laya_pages, exclude_files } from './const';
+import { exists, lstatFile } from './ls/asyncUtil';
 import { execArr } from './ls/exec';
 import { cp } from './ls/main';
+import { calcClosestDepth, normalize } from './ls/pathUtil';
 
 /** 图片 bin */
 export async function releaseAssets(commit?: string) {
@@ -31,6 +32,9 @@ export async function findChangeFiles(commit?: string) {
     files.pop();
     let result = [];
     for (const file of files) {
+        if (isExcludeFile(file)) {
+            continue;
+        }
         try {
             const target = await findTargetFile(file);
             if (Array.isArray(target)) {
@@ -111,4 +115,16 @@ async function findBinFile(ori_file: string): Promise<string | string[]> {
     if (await exists(path.resolve(project_folder, assets_atlas))) {
         return [assets_atlas, assets_png];
     }
+}
+
+async function isExcludeFile(ori_file: string): Promise<boolean> {
+    ori_file = path.resolve(project_folder, ori_file);
+    for (let item of exclude_files) {
+        item = path.resolve(project_folder, item);
+        if (calcClosestDepth(ori_file, item) > -1) {
+            return true;
+        }
+    }
+
+    return false;
 }

@@ -4,5 +4,6 @@
     "laya_assets": "laya/assets",
     "laya_pages": "laya/pages",
     "binJs": "bin/main.js",
-    "target_folder": "X:\\"
+    "target_folder": "X:\\",
+    "exclude": [".vscode", "script"]
 }
