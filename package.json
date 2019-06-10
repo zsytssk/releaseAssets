@@ -3,7 +3,10 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "releaseAssets10": "ts-node  --files ./script/main releaseAssets HEAD~10",
+        "releaseAssetsDiffMaster": "ts-node  --files ./script/main releaseAssets master",
+        "releaseAssetsBefore": "ts-node  --files ./script/main releaseAssets 0",
+        "releaseAssetsBefore1": "ts-node  --files ./script/main releaseAssets 1",
+        "releaseAssetsHEAD10": "ts-node  --files ./script/main releaseAssets HEAD~10",
         "releaseAssets": "ts-node  --files ./script/main releaseAssets"
     },
     "author": "",

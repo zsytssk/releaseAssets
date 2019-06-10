@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "build",
             "runtimeArgs": ["-r", "ts-node/register"],
-            "args": ["${workspaceRoot}\\script\\main.ts", "releaseAssets", "HEAD~20"],
+            "args": ["${workspaceRoot}\\script\\main.ts", "releaseAssets", "today"],
             "cwd": "${workspaceRoot}",
             "sourceMaps": true,
             "env": {
