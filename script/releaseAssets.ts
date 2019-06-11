@@ -17,6 +17,7 @@ import { write } from './ls/write';
 
 /** 图片 bin */
 export async function releaseAssets(commit?: string) {
+    console.log(commit, commit_list[commit]);
     commit = commit_list[commit] || commit;
     const files = await getChangeFilesSince(commit);
     if (!files) {
@@ -33,13 +34,6 @@ export async function releaseAssets(commit?: string) {
             console.log(`complete copy ${ori_file} => ${dist_file}`);
         });
     }
-}
-async function getYesterDayLastCommit(): Promise<string> {
-    const files_str = (await execArr(`git log --before=0am`, {
-        path: project_folder,
-    })) as string;
-    const commit = files_str.split('\n')[0].split(' ')[1];
-    return commit;
 }
 async function saveCommit() {
     let cur_commit = (await execArr(`git rev-parse HEAD`, {
@@ -60,10 +54,6 @@ async function saveCommit() {
 }
 async function getChangeFilesSince(commit?: string) {
     commit = commit || '';
-    if (commit === 'today') {
-        commit = await getYesterDayLastCommit();
-        console.log('today', commit);
-    }
 
     const files_str = (await execArr(`git diff --name-only ${commit}`, {
         path: project_folder,
