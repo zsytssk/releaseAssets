@@ -2,45 +2,57 @@ import * as path from 'path';
 import {
     bin,
     binJs,
+    commit_map,
     exclude_files,
     laya_assets,
     laya_pages,
     project_folder,
     target_folder,
-    commit_list,
 } from './const';
 import { exists } from './ls/asyncUtil';
 import { execArr } from './ls/exec';
-import { cp } from './ls/main';
 import { calcClosestDepth } from './ls/pathUtil';
 import { write } from './ls/write';
+import { multiCopy } from './utils';
 
 /** 图片 bin */
 export async function releaseAssets(commit?: string) {
-    console.log(commit, commit_list[commit]);
-    commit = commit_list[commit] || commit;
+    const cur_branch = await getCurBranch();
+    if (!commit_map[cur_branch]) {
+        commit_map[cur_branch] = [];
+    }
+    commit = commit_map[cur_branch][commit] || commit;
     const files = await getChangeFilesSince(commit);
     if (!files) {
         console.log(`cant find change files!`);
         return;
     }
-    saveCommit();
+    saveCommit(cur_branch);
+    const list: string[][] = [];
     for (const file of files) {
         const ori_file = path.resolve(project_folder, file);
         const dist_file = path
             .resolve(target_folder, file)
             .replace('bin\\', '');
-        cp(ori_file, dist_file).then(() => {
-            console.log(`complete copy ${ori_file} => ${dist_file}`);
-        });
+        list.push([ori_file, dist_file]);
     }
+    multiCopy(list, 8);
 }
-async function saveCommit() {
-    let cur_commit = (await execArr(`git rev-parse HEAD`, {
+async function getCurBranch() {
+    let cur_branch = (await execArr(`git rev-parse --abbrev-ref HEAD`, {
+        path: project_folder,
+    })) as string;
+
+    cur_branch = cur_branch.split('\n')[0];
+
+    return cur_branch;
+}
+async function saveCommit(cur_branch: string) {
+    let cur_commit = (await execArr(`git rev-parse --short HEAD`, {
         path: project_folder,
     })) as string;
     cur_commit = cur_commit.replace('\n', '');
-    console.log(`test:`, cur_commit);
+    const commit_list = commit_map[cur_branch];
     /** 已经保存的commit不再继续添加 */
     if (commit_list.indexOf(cur_commit) !== -1) {
         return;
@@ -49,15 +61,27 @@ async function saveCommit() {
     new_list.unshift(cur_commit);
     await write(
         path.resolve('./script/commit.json'),
-        JSON.stringify({ commit: new_list }),
+        JSON.stringify({
+            commit: {
+                ...commit_map,
+                [cur_branch]: new_list,
+            },
+        }),
     );
 }
 async function getChangeFilesSince(commit?: string) {
     commit = commit || '';
 
-    const files_str = (await execArr(`git diff --name-only ${commit}`, {
-        path: project_folder,
-    })) as string;
+    let files_str: string;
+    if (commit) {
+        files_str = (await execArr(`git diff --name-only ${commit}`, {
+            path: project_folder,
+        })) as string;
+    } else {
+        files_str = (await execArr(`git ls-tree --name-only -r head`, {
+            path: project_folder,
+        })) as string;
+    }
 
     if (!files_str) {
         return;
@@ -79,7 +103,7 @@ async function getChangeFilesSince(commit?: string) {
                 result.push(target);
             }
         } catch (err) {
-            console.error(err);
+            console.log(err);
         }
     }
     result = result.filter((item, index) => {

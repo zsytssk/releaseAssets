@@ -17,6 +17,7 @@
         "tsconfig.json",
         "tslint.json",
         "webpack.config.js",
+        "laya/.laya",
         "laya/pageStyles.xml"
     ]
 }
