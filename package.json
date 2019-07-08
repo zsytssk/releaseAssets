@@ -7,7 +7,9 @@
         "releaseAssetsBefore": "ts-node  --files ./script/main releaseAssets 0",
         "releaseAssetsBefore1": "ts-node  --files ./script/main releaseAssets 1",
         "releaseAssetsHEAD10": "ts-node  --files ./script/main releaseAssets HEAD~10",
-        "releaseAssets": "ts-node  --files ./script/main releaseAssets"
+        "releaseAssets": "ts-node  --files ./script/main releaseAssets",
+        "releaseSvn": "ts-node  --files ./script/main releaseSvn",
+        "release": "webpack --mode production"
     },
     "author": "",
     "license": "ISC",

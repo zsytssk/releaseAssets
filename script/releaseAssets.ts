@@ -3,12 +3,15 @@ import {
     bin,
     binJs,
     commit_map,
+    commit_path,
     exclude_files,
     laya_assets,
     laya_pages,
     project_folder,
     target_folder,
+    include,
 } from './const';
+
 import { exists } from './ls/asyncUtil';
 import { execArr } from './ls/exec';
 import { calcClosestDepth } from './ls/pathUtil';
@@ -22,11 +25,16 @@ export async function releaseAssets(commit?: string) {
         commit_map[cur_branch] = [];
     }
     commit = commit_map[cur_branch][commit] || commit;
+
+    if (!isNaN(Number(commit))) {
+        console.log(`maybe cant find index=${commit} in commit_map!`);
+    }
     const files = await getChangeFilesSince(commit);
     if (!files) {
         console.log(`cant find change files!`);
         return;
     }
+    files.push('bin\\fileconfig.json', 'bin\\version.json');
     saveCommit(cur_branch);
     const list: string[][] = [];
     for (const file of files) {
@@ -60,7 +68,7 @@ async function saveCommit(cur_branch: string) {
     const new_list = commit_list.concat([]);
     new_list.unshift(cur_commit);
     await write(
-        path.resolve('./script/commit.json'),
+        commit_path,
         JSON.stringify({
             commit: {
                 ...commit_map,
@@ -92,6 +100,9 @@ async function getChangeFilesSince(commit?: string) {
     files.pop();
     let result = [];
     for (const file of files) {
+        if (!(await isIncludeFile(file))) {
+            continue;
+        }
         if (await isExcludeFile(file)) {
             continue;
         }
@@ -180,6 +191,17 @@ async function findBinFile(ori_file: string): Promise<string | string[]> {
 async function isExcludeFile(ori_file: string): Promise<boolean> {
     ori_file = path.resolve(project_folder, ori_file);
     for (let item of exclude_files) {
+        item = path.resolve(project_folder, item);
+        if (calcClosestDepth(ori_file, item) > -1) {
+            return true;
+        }
+    }
+
+    return false;
+}
+async function isIncludeFile(ori_file: string): Promise<boolean> {
+    ori_file = path.resolve(project_folder, ori_file);
+    for (let item of include) {
         item = path.resolve(project_folder, item);
         if (calcClosestDepth(ori_file, item) > -1) {
             return true;

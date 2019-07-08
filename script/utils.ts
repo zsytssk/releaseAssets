@@ -1,5 +1,6 @@
 import { cp } from './ls/main';
-import pMap from 'p-map';
+import * as pMap from './p-map';
+
 export function multiCopy(file_list: string[][], num: number) {
     pMap(
         file_list,

@@ -6,8 +6,10 @@ module.exports = {
     entry: './script/main.ts',
     watch: true,
     output: {
-        filename: 'genConfig.js',
-        path: path.normalize('D:\\zsytssk\\job\\legend\\legend_demo\\script\\genConfig'),
+        filename: 'releaseAssets.js',
+        path: path.normalize(
+            'D:\\zsytssk\\job\\legend\\legend_demo\\script\\releaseAssets',
+        ),
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.json'],

@@ -5,19 +5,6 @@
     "laya_pages": "laya/pages",
     "binJs": "bin/main.js",
     "target_folder": "X:\\",
-    "exclude": [
-        ".vscode",
-        "script",
-        "test",
-        "dlc",
-        ".gitignore",
-        ".prettierrc",
-        "package-lock.json",
-        "package.json",
-        "tsconfig.json",
-        "tslint.json",
-        "webpack.config.js",
-        "laya/.laya",
-        "laya/pageStyles.xml"
-    ]
+    "include": ["laya", "src", "test", "libs", "bin"],
+    "exclude": ["laya/.laya", "laya/views", "laya/pageStyles.xml"]
 }
