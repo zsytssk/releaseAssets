@@ -6,7 +6,7 @@ export function multiCopy(file_list: string[][], num: number) {
         file_list,
         ([ori_file, dist_file]) => {
             return cp(ori_file, dist_file).then(() => {
-                console.log(`complete copy ${ori_file} => ${dist_file}`);
+                console.log(`copyed:> ${ori_file} => ${dist_file}`);
             });
         },
         { concurrency: num },

@@ -2,7 +2,7 @@ import * as path from 'path';
 import { intConfig } from './const';
 import { readdir } from './ls/asyncUtil';
 import { cp } from './ls/main';
-import { releaseAssets } from './releaseAssets';
+import { releaseAssets } from './releaseAssets/releaseAssets';
 
 const [type, commit] = process.argv.slice(2);
 const config_path = path.resolve(
@@ -41,15 +41,4 @@ async function releaseSvn() {
         console.log(src_path, dist_path);
         await cp(src_path, dist_path);
     }
-
-    // const files = await walk(src);
-    // for (const file of files) {
-    //     if (calcClosestDepth(file, ignore) > -1) {
-    //         continue;
-    //     }
-    //     const rel_path = path.relative(file, src);
-    //     const dist_path = path.resolve(dist, rel_path);
-    //     console.log(file, rel_path, dist_path);
-    //     // cp(file, dist_path);
-    // }
 }
