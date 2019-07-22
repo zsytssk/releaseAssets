@@ -9,6 +9,7 @@
         "releaseAssetsHEAD10": "ts-node  --files ./script/main releaseAssets HEAD~10",
         "releaseAssets": "ts-node  --files ./script/main releaseAssets",
         "releaseSvn": "ts-node  --files ./script/main releaseSvn",
+        "copyNpc": "ts-node  --files ./script/main copyNpc",
         "release": "webpack --mode production"
     },
     "author": "",
