@@ -5,8 +5,8 @@ import {
     project_folder,
     target_folder,
 } from '../const';
-import { execArr } from '../ls/exec';
-import { write } from '../ls/write';
+import { execArr } from '../script/exec';
+import { write } from '../script/write';
 import { multiCopy } from '../utils';
 import { getChangeFilesSince } from './findChangeFiles';
 

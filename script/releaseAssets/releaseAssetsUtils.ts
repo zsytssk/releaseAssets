@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { exclude_files, include, project_folder } from '../const';
-import { calcClosestDepth } from '../ls/pathUtil';
+import { calcClosestDepth } from '../script/pathUtil';
 
 export async function isExcludeFile(ori_file: string): Promise<boolean> {
     ori_file = path.resolve(project_folder, ori_file);

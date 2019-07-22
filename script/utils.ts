@@ -1,4 +1,4 @@
-import { cp } from './ls/main';
+import { cp } from './script/main';
 import * as pMap from './p-map';
 
 export function multiCopy(file_list: string[][], num: number) {

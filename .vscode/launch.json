@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "build",
             "runtimeArgs": ["-r", "ts-node/register"],
-            "args": ["${workspaceRoot}\\script\\main.ts", "releaseAssets"],
+            "args": ["${workspaceRoot}\\script\\main.ts", "releaseSvn"],
             "cwd": "${workspaceRoot}",
             "sourceMaps": true,
             "env": {

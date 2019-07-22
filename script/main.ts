@@ -1,8 +1,9 @@
 import * as path from 'path';
 import { intConfig } from './const';
-import { readdir } from './ls/asyncUtil';
-import { cp } from './ls/main';
+import { readdir } from './script/asyncUtil';
+import { cp } from './script/main';
 import { releaseAssets } from './releaseAssets/releaseAssets';
+import { walk } from './script/walk';
 
 const [type, commit] = process.argv.slice(2);
 const config_path = path.resolve(
@@ -28,17 +29,16 @@ async function main() {
 main();
 
 async function releaseSvn() {
-    const src = `D:\\zsytssk\\job\\legend\\svn`;
+    const src = `D:\\zsytssk\\job\\legend\\svn\\`;
     const dist = `V:\\`;
     const ignore = ['.svn', '设计稿'];
-    const path_list = await readdir(src);
+    const path_list = await walk(src, ignore);
     for (const item of path_list) {
         if (ignore.indexOf(item) !== -1) {
             continue;
         }
-        const src_path = path.resolve(src, item);
-        const dist_path = path.resolve(dist, item);
-        console.log(src_path, dist_path);
-        await cp(src_path, dist_path);
+        const dist_path = item.replace(src, dist);
+        console.log(item, dist_path);
+        await cp(item, dist_path);
     }
 }

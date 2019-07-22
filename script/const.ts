@@ -1,4 +1,4 @@
-import { readFile } from './ls/asyncUtil';
+import { readFile } from './script/asyncUtil';
 
 export let project_folder;
 export let bin;

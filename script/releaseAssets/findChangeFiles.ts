@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { bin, binJs, laya_assets, laya_pages, project_folder } from '../const';
-import { exists } from '../ls/asyncUtil';
-import { execArr } from '../ls/exec';
+import { exists } from '../script/asyncUtil';
+import { execArr } from '../script/exec';
 import {
     isExcludeFile,
     isIncludeFile,
