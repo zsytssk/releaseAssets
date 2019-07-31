@@ -123,7 +123,7 @@ async function findBinFile(ori_file: string): Promise<FileItem> {
         const pages_file = ori_file.replace(laya_pages, bin);
         if (await exists(path.resolve(project_folder, pages_file))) {
             return {
-                is_same: true,
+                is_same: false,
                 source: [ori_file],
                 target: [pages_file],
             };
