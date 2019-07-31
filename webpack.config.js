@@ -7,9 +7,7 @@ module.exports = {
     watch: true,
     output: {
         filename: 'releaseAssets.js',
-        path: path.normalize(
-            'D:\\zsytssk\\job\\legend\\legend_demo\\script\\releaseAssets',
-        ),
+        path: path.normalize('Z:\\script\\releaseAssets'),
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.json'],

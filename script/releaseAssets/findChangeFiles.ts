@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { bin, binJs, laya_assets, laya_pages, project_folder } from '../const';
-import { exists } from '../script/asyncUtil';
+import { exists, readFile } from '../script/asyncUtil';
 import { execArr } from '../script/exec';
 import {
     isExcludeFile,
@@ -133,20 +133,28 @@ async function findBinFile(ori_file: string): Promise<FileItem> {
     const bin_folder = path.dirname(ori_file.replace(laya_assets, bin));
     const assets_atlas = `${bin_folder}.atlas`;
     const assets_json = `${bin_folder}.json`;
-    const assets_png = `${bin_folder}.png`;
 
+    let atlas: string;
+    let atlas_path: string;
     if (await exists(path.resolve(project_folder, assets_json))) {
-        return {
-            is_same: false,
-            source: [ori_file],
-            target: [assets_json, assets_png],
-        };
+        atlas = assets_json;
+        atlas_path = path.resolve(project_folder, assets_json);
+    } else if (await exists(path.resolve(project_folder, assets_atlas))) {
+        atlas = assets_atlas;
+        atlas_path = path.resolve(project_folder, assets_atlas);
+    } else {
+        return;
     }
-    if (await exists(path.resolve(project_folder, assets_atlas))) {
-        return {
-            is_same: false,
-            source: [ori_file],
-            target: [assets_atlas, assets_png],
-        };
-    }
+
+    /** 图片直接读取 图集文件中设置的图片 */
+    const {
+        meta: { image },
+    } = JSON.parse(await readFile(atlas_path));
+    const image_list = image.split(',');
+
+    return {
+        is_same: false,
+        source: [ori_file],
+        target: [atlas, ...image_list],
+    };
 }
