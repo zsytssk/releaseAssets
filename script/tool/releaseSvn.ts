@@ -1,9 +1,9 @@
 import * as path from 'path';
-import { walk } from '../script/walk';
-import { cp } from '../script/main';
-import { execArr } from '../script/exec';
-import { rm } from '../script/rm';
 import { readFile } from '../script/asyncUtil';
+import { execArr } from '../script/exec';
+import { cp } from '../script/main';
+import { rm } from '../script/rm';
+import { walk } from '../script/walk';
 import { write } from '../script/write';
 
 export async function releaseSvn() {

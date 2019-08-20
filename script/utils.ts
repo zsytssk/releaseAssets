@@ -5,7 +5,7 @@ import { rm } from './script/rm';
 
 export type ItemData = [string, string, ChangeStatus];
 export function multiCopy(file_list: ItemData[], num: number) {
-    pMap(
+    return pMap(
         file_list,
         ([ori_file, dist_file, status]: ItemData) => {
             if (status === 'm') {

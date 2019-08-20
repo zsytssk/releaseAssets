@@ -7,6 +7,8 @@ import {
 } from '../const';
 import { excuse, execArr } from '../script/exec';
 import { write } from '../script/write';
+import { genVersion } from '../tool/genVersion';
+import { writeVersion } from '../tool/writeVersion';
 import { ItemData, multiCopy } from '../utils';
 import { getChangeFilesSince } from './findChangeFiles';
 
@@ -38,9 +40,6 @@ export async function releaseAssets(commit?: string, msg?: string) {
             const dist_file = path
                 .resolve(target_folder, item)
                 .replace('bin\\', '');
-            if (status === 'd') {
-                console.log(file_item);
-            }
 
             list.push([ori_file, dist_file, status]);
         }
@@ -82,18 +81,48 @@ async function saveCommit(cur_branch: string) {
 }
 
 /* 提交目标仓库 */
-export async function acpp(msg: string) {
+export async function releaseRemote(msg: string) {
     msg = msg || 'update';
+    try {
+        /* 提交修改文件 */
+        await acpp(msg);
+        /* 生成版本号 */
+        /* 生成版本号 */
+        const info = await genVersion();
+        console.log(info);
+
+        /* 改写index.html + index.js 中版本号 */
+        await writeVersion();
+
+        /* 将上一步修改的文件提交 */
+        await acpp(msg);
+    } catch (err) {
+        console.log(`fail`, err);
+    }
+}
+/* 提交目标仓库 */
+export async function acpp(msg: string) {
+    console.log('git add .');
     await excuse(`git add .`, {
         path: target_folder,
+        output: true,
     });
+
+    console.log(`git commit -m "${msg}"`);
     await excuse(`git commit -m "${msg}"`, {
         path: target_folder,
+        output: true,
     });
+
+    console.log(`git pull`);
     await excuse(`git pull`, {
         path: target_folder,
+        output: true,
     });
+
+    console.log(`git push`);
     await excuse(`git push`, {
         path: target_folder,
+        output: true,
     });
 }
