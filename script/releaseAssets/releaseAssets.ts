@@ -11,7 +11,7 @@ import { ItemData, multiCopy } from '../utils';
 import { getChangeFilesSince } from './findChangeFiles';
 
 /** 图片 bin */
-export async function releaseAssets(commit?: string) {
+export async function releaseAssets(commit?: string, msg?: string) {
     const cur_branch = await getCurBranch();
     if (!commit_map[cur_branch]) {
         commit_map[cur_branch] = [];
@@ -46,7 +46,7 @@ export async function releaseAssets(commit?: string) {
         }
     }
     await multiCopy(list, 8);
-    await acpp();
+    await acpp(msg);
 }
 
 async function getCurBranch() {
@@ -82,11 +82,12 @@ async function saveCommit(cur_branch: string) {
 }
 
 /* 提交目标仓库 */
-export async function acpp() {
+export async function acpp(msg: string) {
+    msg = msg || 'update';
     await excuse(`git add .`, {
         path: target_folder,
     });
-    await excuse(`git commit -m "update"`, {
+    await excuse(`git commit -m "${msg}"`, {
         path: target_folder,
     });
     await excuse(`git pull`, {

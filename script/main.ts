@@ -4,7 +4,7 @@ import { releaseAssets, acpp } from './releaseAssets/releaseAssets';
 import { copyNpc } from './tool/copyNpc';
 import { releaseSvn, releaseBack } from './tool/releaseSvn';
 
-const [type, commit] = process.argv.slice(2);
+const [type, commit, msg] = process.argv.slice(2);
 const config_path = path.resolve(
     path.dirname(process.argv[1]),
     './config.json',
@@ -24,7 +24,7 @@ async function main() {
         acpp,
     };
     if (actions[type]) {
-        await actions[type](commit);
+        await actions[type](commit, msg);
     }
 }
 main();
