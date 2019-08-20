@@ -8,7 +8,10 @@
         "releaseAssetsBefore1": "ts-node  --files ./script/main releaseAssets 1",
         "releaseAssetsHEAD10": "ts-node  --files ./script/main releaseAssets HEAD~10",
         "releaseAssets": "ts-node  --files ./script/main releaseAssets",
+        "acpp": "ts-node  --files ./script/main acpp",
+        "pl": "ts-node  --files ./script/main releaseAssets",
         "releaseSvn": "ts-node  --files ./script/main releaseSvn",
+        "releaseBack": "ts-node  --files ./script/main releaseBack",
         "copyNpc": "ts-node  --files ./script/main copyNpc",
         "publish": "webpack --mode production"
     },

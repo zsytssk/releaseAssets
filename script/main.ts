@@ -1,12 +1,8 @@
 import * as path from 'path';
 import { intConfig } from './const';
-import { readdir } from './script/asyncUtil';
-import { cp } from './script/main';
-import { releaseAssets } from './releaseAssets/releaseAssets';
-import { walk } from './script/walk';
-import { releaseSvn } from './tool/releaseSvn';
-import { copyFile } from 'fs';
+import { releaseAssets, acpp } from './releaseAssets/releaseAssets';
 import { copyNpc } from './tool/copyNpc';
+import { releaseSvn, releaseBack } from './tool/releaseSvn';
 
 const [type, commit] = process.argv.slice(2);
 const config_path = path.resolve(
@@ -24,6 +20,8 @@ async function main() {
         releaseAssets,
         releaseSvn,
         copyNpc,
+        releaseBack,
+        acpp,
     };
     if (actions[type]) {
         await actions[type](commit);

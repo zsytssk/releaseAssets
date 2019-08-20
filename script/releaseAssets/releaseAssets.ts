@@ -5,9 +5,9 @@ import {
     project_folder,
     target_folder,
 } from '../const';
-import { execArr } from '../script/exec';
+import { excuse, execArr } from '../script/exec';
 import { write } from '../script/write';
-import { multiCopy } from '../utils';
+import { ItemData, multiCopy } from '../utils';
 import { getChangeFilesSince } from './findChangeFiles';
 
 /** 图片 bin */
@@ -27,9 +27,9 @@ export async function releaseAssets(commit?: string) {
         return;
     }
     saveCommit(cur_branch);
-    const list: string[][] = [];
+    const list: ItemData[] = [];
     for (const file_item of files) {
-        const { target, source, is_same } = file_item;
+        const { target, source, is_same, status } = file_item;
         for (const [index, item] of target.entries()) {
             let ori_file = path.resolve(project_folder, item);
             if (is_same) {
@@ -38,11 +38,15 @@ export async function releaseAssets(commit?: string) {
             const dist_file = path
                 .resolve(target_folder, item)
                 .replace('bin\\', '');
+            if (status === 'd') {
+                console.log(file_item);
+            }
 
-            list.push([ori_file, dist_file]);
+            list.push([ori_file, dist_file, status]);
         }
     }
-    multiCopy(list, 8);
+    await multiCopy(list, 8);
+    await acpp();
 }
 
 async function getCurBranch() {
@@ -75,4 +79,20 @@ async function saveCommit(cur_branch: string) {
             },
         }),
     );
+}
+
+/* 提交目标仓库 */
+export async function acpp() {
+    await excuse(`git add .`, {
+        path: target_folder,
+    });
+    await excuse(`git commit -m "update"`, {
+        path: target_folder,
+    });
+    await excuse(`git pull`, {
+        path: target_folder,
+    });
+    await excuse(`git push`, {
+        path: target_folder,
+    });
 }
