@@ -6,8 +6,8 @@ import { replaceReg } from './replaceReg';
 
 let version_json: any;
 export async function writeVersion() {
-    const index_html = path.resolve(target_folder, 'bin/index.html');
-    const index_js = path.resolve(target_folder, 'bin/index.js');
+    const index_html = path.resolve(target_folder, 'index.html');
+    const index_js = path.resolve(target_folder, 'index.js');
 
     const version_path = path.resolve(target_folder, 'release/sgGlory.json');
 
@@ -21,9 +21,9 @@ export async function writeVersion() {
     );
     const new_index_js_str = replaceReg(
         index_js_str,
-        /loadLib\(\'([^\']+)\'\)/g,
+        /loadLib\(('|")(([^\?\'\"]+)\?[^\'\"]+)('|")\)/g,
         (match: RegExpExecArray) => {
-            const file = match[1];
+            const file = match[3];
             const version = getVersion(file);
             console.log(file, version);
             return `loadLib('${file}?v=${version}')`;

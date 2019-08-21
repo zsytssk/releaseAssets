@@ -20,6 +20,20 @@ export async function releaseSvn() {
         await cp(item, dist_path);
     }
 }
+export async function releaseNpc() {
+    const src = `D:\\zsytssk\\job\\legend\\svn\\设计稿\\动画\\npc`;
+    const dist = `V:\\产品文档\\地图配置`;
+    const ignore = ['.svn', '设计稿'];
+    const path_list = await walk(src, ignore);
+    for (const item of path_list) {
+        if (ignore.indexOf(item) !== -1) {
+            continue;
+        }
+        const dist_path = item.replace(src, dist);
+        console.log(item, dist_path);
+        await cp(item, dist_path);
+    }
+}
 export async function releaseBack() {
     const dist = `D:\\zsytssk\\github\\glory`;
     const src = `Z:\\`;

@@ -45,7 +45,7 @@ export async function releaseAssets(commit?: string, msg?: string) {
         }
     }
     await multiCopy(list, 8);
-    await acpp(msg);
+    await releaseRemote(msg);
 }
 
 async function getCurBranch() {
@@ -87,9 +87,14 @@ export async function releaseRemote(msg: string) {
         /* 提交修改文件 */
         await acpp(msg);
         /* 生成版本号 */
-        /* 生成版本号 */
         const info = await genVersion();
         console.log(info);
+
+        /** 拉取服务端最新的版本号 */
+        await excuse(`git pull`, {
+            path: target_folder,
+            output: true,
+        });
 
         /* 改写index.html + index.js 中版本号 */
         await writeVersion();

@@ -1,6 +1,6 @@
+import * as path from 'path';
 import { readdir } from '../script/asyncUtil';
 import { cp } from '../script/main';
-import * as path from 'path';
 
 const src = 'D:\\zsytssk\\job\\legend\\svn\\设计稿\\动画\\npc';
 const dist = 'Z:\\dlc\\npc';
