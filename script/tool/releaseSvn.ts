@@ -48,18 +48,20 @@ export async function releaseBack() {
     } catch (err) {
         last_commit = commit;
     }
-    write(commit_json, JSON.stringify({ last_commit: commit }));
     const changes = await getChangeFiles(src, last_commit);
     for (const item of changes) {
         const { status, file_path } = item;
         const src_path = path.resolve(src, file_path);
         const dist_path = path.resolve(dist, file_path);
+        console.log(src_path);
         if (status === 'm') {
             await cp(src_path, dist_path);
         } else {
             await rm(dist_path);
         }
     }
+
+    write(commit_json, JSON.stringify({ last_commit: commit }));
 }
 
 type ChangeItem = {
