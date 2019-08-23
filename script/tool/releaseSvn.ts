@@ -53,7 +53,7 @@ export async function releaseBack() {
         const { status, file_path } = item;
         const src_path = path.resolve(src, file_path);
         const dist_path = path.resolve(dist, file_path);
-        console.log(src_path);
+        console.log(status, src_path);
         if (status === 'm') {
             await cp(src_path, dist_path);
         } else {
@@ -62,7 +62,7 @@ export async function releaseBack() {
     }
 
     await write(commit_json, JSON.stringify({ last_commit: commit }));
-    await excuse('git acpp "[update]"', { path: dist });
+    await excuse('git acpp "[update]"', { path: dist, output: true });
 }
 
 type ChangeItem = {
