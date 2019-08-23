@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { readFile } from '../script/asyncUtil';
-import { execArr } from '../script/exec';
+import { execArr, excuse } from '../script/exec';
 import { cp } from '../script/main';
 import { rm } from '../script/rm';
 import { walk } from '../script/walk';
@@ -61,7 +61,8 @@ export async function releaseBack() {
         }
     }
 
-    write(commit_json, JSON.stringify({ last_commit: commit }));
+    await write(commit_json, JSON.stringify({ last_commit: commit }));
+    await excuse('git acpp "[update]"', { path: dist });
 }
 
 type ChangeItem = {
