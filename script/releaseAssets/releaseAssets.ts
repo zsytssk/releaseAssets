@@ -102,7 +102,13 @@ export async function releaseRemote(msg: string) {
         /* 将上一步修改的文件提交 */
         await acpp(msg);
     } catch (err) {
-        console.log(`fail`, err);
+        let err_msg: string = err;
+        if (typeof err === 'object') {
+            err_msg = JSON.stringify(err);
+        } else {
+            err_msg = JSON.stringify(err);
+        }
+        console.log(`fail`, err_msg);
     }
 }
 /* 提交目标仓库 */
