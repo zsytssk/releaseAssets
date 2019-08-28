@@ -3,6 +3,7 @@ import { intConfig } from './const';
 import { releaseAssets, acpp } from './releaseAssets/releaseAssets';
 import { copyNpc } from './tool/copyNpc';
 import { releaseSvn, releaseBack } from './tool/releaseSvn';
+import { releaseEcs } from './tool/releaseEcs';
 
 const [type, commit, msg] = process.argv.slice(2);
 const config_path = path.resolve(
@@ -18,6 +19,7 @@ async function main() {
     await intConfig(config_path, commit_path);
     const actions = {
         releaseAssets,
+        releaseEcs,
         releaseSvn,
         copyNpc,
         releaseBack,

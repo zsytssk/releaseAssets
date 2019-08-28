@@ -8,6 +8,7 @@
         "releaseAssetsBefore1": "ts-node  --files ./script/main releaseAssets 1",
         "releaseAssetsHEAD10": "ts-node  --files ./script/main releaseAssets HEAD~10",
         "releaseAssets": "ts-node  --files ./script/main releaseAssets",
+        "releaseEcs": "ts-node  --files ./script/main releaseEcs",
         "acpp": "ts-node  --files ./script/main acpp",
         "pl": "ts-node  --files ./script/main releaseAssets",
         "releaseSvn": "ts-node  --files ./script/main releaseSvn",

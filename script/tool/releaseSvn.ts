@@ -38,14 +38,19 @@ export async function releaseBack() {
     const dist = `D:\\zsytssk\\github\\glory`;
     const src = `Z:\\`;
     const commit_json = './script/back.json';
-    let commit = (await execArr('git rev-parse --short HEAD', {
+    const commit = (await excuse('git rev-parse --short HEAD', {
         path: src,
     })) as string;
-    commit = commit.split('\n')[0];
+    const cur_branch = (await excuse('git rev-parse --abbrev-ref HEAD', {
+        path: src,
+    })) as string;
     let last_commit;
+    let back_json;
     try {
-        last_commit = JSON.parse(await readFile(commit_json)).last_commit;
+        back_json = JSON.parse(await readFile(commit_json));
+        last_commit = back_json[cur_branch];
     } catch (err) {
+        back_json = {};
         last_commit = commit;
     }
     const changes = await getChangeFiles(src, last_commit);
@@ -61,7 +66,10 @@ export async function releaseBack() {
         }
     }
 
-    await write(commit_json, JSON.stringify({ last_commit: commit }));
+    await write(
+        commit_json,
+        JSON.stringify({ ...back_json, [cur_branch]: commit }),
+    );
     await excuse('git acpp "[update]"', { path: dist, output: true });
 }
 
